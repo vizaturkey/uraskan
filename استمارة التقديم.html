@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>مكتب أور – إدخال البيانات</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-light: #f0f0f0;
+      --text-light: #222;
+      --bg-dark: #121212;
+      --text-dark: #eee;
+      --primary-color: #00e5ff;
+      --input-bg-light: #fff;
+      --input-bg-dark: #333;
+    }
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: var(--bg-dark);
+      color: var(--text-dark);
+      padding: 15px;
+      margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    body.light {
+      background-color: var(--bg-light);
+      color: var(--text-light);
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+    form {
+      max-width: 600px;
+      margin: auto;
+      background-color: #1e1e1e;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    }
+    body.light form {
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      font-weight: bold;
+      font-size: 16px;
+    }
+    input, select {
+      width: 100%;
+      padding: 8px;
+      font-size: 15px;
+      border-radius: 5px;
+      border: 1px solid #555;
+      background-color: var(--input-bg-dark);
+      color: var(--text-dark);
+      box-sizing: border-box;
+    }
+    body.light input, body.light select {
+      background-color: var(--input-bg-light);
+      color: var(--text-light);
+      border: 1px solid #aaa;
+    }
+    button {
+      margin-top: 25px;
+      padding: 12px;
+      width: 100%;
+      font-size: 18px;
+      font-weight: bold;
+      color: white;
+      background-color: var(--primary-color);
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    button:hover { background-color: #00bcd4; }
+    #toggleTheme {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: var(--primary-color);
+      border: none;
+      color: black;
+      padding: 6px;
+      border-radius: 50%;
+      font-size: 18px;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 0 5px rgba(0,229,255,0.7);
+      cursor: pointer;
+      z-index: 1000;
+    }
+    #loadingOverlay {
+      position: fixed;
+      top:0;left:0;right:0;bottom:0;
+      background:rgba(0,0,0,0.7);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      color:white;
+      font-size:22px;
+      z-index:9999;
+      flex-direction:column;
+    }
+    #loadingOverlay .spinner {
+      margin-bottom:15px;
+      border:6px solid #f3f3f3;
+      border-top:6px solid var(--primary-color);
+      border-radius:50%;
+      width:50px;
+      height:50px;
+      animation:spin 1s linear infinite;
+    }
+    @keyframes spin { 0%{transform:rotate(0);}100%{transform:rotate(360deg);} }
+    #successCircle {
+      position:fixed;
+      top:50%;left:50%;
+      transform:translate(-50%,-50%);
+      width:140px;height:140px;
+      border-radius:50%;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      color:white;
+      font-weight:bold;
+      font-size:20px;
+      animation:colorChange 3s linear forwards;
+      box-shadow:0 0 15px #00e5ffaa;
+      text-align:center;
+      padding:20px;
+      box-sizing:border-box;
+      user-select:none;
+      z-index:10000;
+    }
+    @keyframes colorChange {
+      0%{background:#4caf50;}
+      33%{background:#2196f3;}
+      66%{background:#ff9800;}
+      100%{background:#4caf50;}
+    }
+    @media (max-width:640px){
+      form{padding:15px;margin:10px;}
+      label{font-size:14px;}
+      button{font-size:16px;}
+      #toggleTheme{padding:5px;font-size:16px;top:10px;left:10px;width:32px;height:32px;}
+      #successCircle{width:110px;height:110px;font-size:16px;padding:15px;}
+    }
+  </style>
+</head>
+<body>
+  <button id="toggleTheme" title="تبديل الوضع">🌙</button>
+  <h2>مكتب أور للخدمات الإلكترونية – إدخال البيانات</h2>
+
+  <form id="dataForm" autocomplete="off">
+    <label>الاسم الكامل واللقب:</label>
+    <input type="text" name="fullName" required />
+
+    <label>العمر:</label>
+    <select name="age" required>
+      <option value="" disabled selected>اختر العمر</option>
+      <option>18-30</option>
+      <option>31-50</option>
+      <option>50 فأكثر</option>
+    </select>
+
+    <label>الحالة الاجتماعية:</label>
+    <select name="maritalStatus" required>
+      <option value="" disabled selected>اختر الحالة</option>
+      <option>أعزب</option>
+      <option>متزوج</option>
+      <option>مطلق</option>
+      <option>أرمل</option>
+    </select>
+
+    <label>عدد الأبناء:</label>
+    <select name="children" required>
+      <option value="" disabled selected>اختر العدد</option>
+      <option>1</option><option>2</option><option>3</option><option>4 فأكثر</option>
+    </select>
+
+    <label>اسم الأم الثلاثي واللقب:</label>
+    <input type="text" name="motherFullName" required />
+
+    <label>رقم البطاقة الوطنية:</label>
+    <input type="text" name="idNumber" required pattern="\d+" />
+
+    <label>رقم الهاتف:</label>
+    <input type="text" name="phoneNumber" required pattern="\d+" />
+
+    <label>هل المقدم من ذوي الاحتياجات؟</label>
+    <select name="specialNeeds" required>
+      <option value="" disabled selected>اختر</option>
+      <option>نعم</option><option>لا</option>
+    </select>
+
+    <label>اسم الكفيل الثلاثي واللقب:</label>
+    <input type="text" name="sponsorName" required />
+
+    <label>اسم أم الكفيل الثلاثي واللقب:</label>
+    <input type="text" name="sponsorMother" required />
+
+    <label>دائرة الكفيل:</label>
+    <input type="text" name="sponsorCircle" required />
+
+    <label>موقع البناء:</label>
+    <select name="buildingLocation" required>
+      <option value="" disabled selected>اختر</option>
+      <option>داخل حدود مركز المحافظة</option>
+      <option>خارج حدود مركز المحافظة</option>
+    </select>
+
+    <label>نوع البناء:</label>
+    <select name="buildingType" required>
+      <option value="" disabled selected>اختر</option>
+      <option>إضافة بناء</option><option>بناء جديد</option>
+    </select>
+
+    <button type="submit">إرسال البيانات</button>
+  </form>
+
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    جارٍ إرسال...
+  </div>
+
+  <div id="successCircle">✅ تم الإرسال!</div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqBl1Qk1ScDi7UQsph95SwIJNE1751jh4",
+      authDomain: "uraskan-d0cc4.firebaseapp.com",
+      projectId: "uraskan-d0cc4"
+    };
+    initializeApp(firebaseConfig);
+    const db = getFirestore();
+
+    const form = document.getElementById('dataForm');
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const successCircle = document.getElementById('successCircle');
+    const toggleThemeBtn = document.getElementById('toggleTheme');
+    let darkMode = true;
+
+    toggleThemeBtn.addEventListener('click', () => {
+      darkMode = !darkMode;
+      document.body.classList.toggle('light', !darkMode);
+      toggleThemeBtn.textContent = darkMode ? '🌙' : '☀️';
+    });
+
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      loadingOverlay.style.display = 'flex';
+      successCircle.style.display = 'none';
+
+      const data = Object.fromEntries(new FormData(form));
+      try {
+        await addDoc(collection(db, 'applications'), data);
+        loadingOverlay.style.display = 'none';
+        successCircle.style.display = 'flex';
+        setTimeout(() => successCircle.style.display = 'none', 3000);
+        form.reset();
+      } catch (err) {
+        loadingOverlay.style.display = 'none';
+        alert('حدث خطأ: ' + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
